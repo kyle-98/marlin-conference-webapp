@@ -1,0 +1,51 @@
+<!DOCTYPE >
+<html>
+    <head>
+
+    </head>
+
+    <body>
+
+        <form action="/add_data" method="post" id="redir-to-add">
+            <input type="submit" id="redit-send-submit" value="Add Hours"/>
+        </form>
+
+        <form action="/logout" method="post">
+            <input type="submit" id="logout-btn" value="Logout"/>
+        </form>
+        
+        <h1>Welcome, <%= session_username%>!</h1>
+        <p>Your timesheet is below:</p>
+
+
+        <table  border=1 style="border: 1px solid; width: 90%;">
+            <tr>
+                <th>Username</th>
+                <th>Date</th>
+                <th>Task Name</th>
+                <th>Notes</th>
+                <th>Starting Time</th>
+                <th>Ending Time</th>
+                <th>Total Time</th>
+            </tr>
+            <% var data_arr = JSON.parse( user_data_arr ); %>
+            <% var total_hours = 0; %>
+            <% for (var i = 0; i < data_arr.length; i++) { %>
+                <tr>
+                    <% for (var j = 0; j < Object.values(data_arr[i]).length; j++){ %>
+                        <td><%= Object.values(data_arr[i])[j]; %></td>
+                        <%if(j == 6){ %>
+                            <% total_hours += Object.values(data_arr[i])[j]; %>
+                        <% } %>
+                    <% } %>
+                </tr>
+            <% } %>
+        </table>
+        
+        <script>
+            //var test;
+            //console.log(test[0]);
+        </script>
+
+    </body>
+</html>
