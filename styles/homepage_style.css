@@ -1,0 +1,62 @@
+#top-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#middle-content{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-around;
+    align-items: center;
+}
+
+#login-submit {
+    margin-left:10%;
+    text-decoration: none;
+    border: none;
+    background-color: rgb(0,145,184);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+#login-submit:hover {
+    background-color: rgb(0,60,105);
+    cursor: pointer;
+}
+
+#admin-page {
+    margin-left:12%;
+    text-decoration: none;
+    border: none;
+    background-color: rgb(0,145,184);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+#admin-page:hover{
+    background-color: rgb(0,60,105);
+    cursor: pointer;
+}
+
+label [for="user-input"]{
+    font-size: 22px;
+    margin-left: 1%;
+}
+
+label [for="pass-input"]{
+    font-size: 22px;
+    margin-left: 1%;
+}
+
+#user-input, #pass-input{
+    padding: 9px 7px;
+    font-size: 13px;
+}
+
+#user-signin-form{
+    width: 42%;
+    margin-left: 32%;
+}
+
