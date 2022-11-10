@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/styles/main_style.css">
+
+        <style>
+            #start, #end, #total_hours {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>Enter the data you would like to add to your timesheet: </h3>
+
+        <form method="post" action="/add">
+            <label for="date">Date: </label><input type="text" placeholder="mm/dd/yyyy" id="date" name="date"/>
+            <br>
+            <label for="taskname">Task Name: </label><input type="text" placeholder="Name of task" id="taskname" name="taskname"/>
+            <br>
+            <label for="notes">Notes: </label><input type="text" placeholder="Notes" id="notes" name="notes"/>
+            <br>
+            <label for="start-time">Start Time: </label><input type="time" id="start-time" onchange="fill_start()"/> <input type="text" id="start" name="startTime"/>
+            <br>
+            <label for="end-time">End Time: </label><input type="time" id="end-time" onchange="fill_end();total_time();"/><input type="text" id="end" name="endTime"/>
+            <input type="text" id="total_hours" name="totalHours"/>
+            <input type="submit" value="Submit Time"/>
+            
+        </form>
+
+        <script>
+            function fill_start() {
+                var [h, m] = document.getElementById('start-time').value.split(":");
+                var am_pm = ((h % 12 ? h % 12 : 12) + ":" + m, h >= 12 ? 'PM' : 'AM');
+                var check = document.getElementById('start-time').value.split(':')[0];
+                if(Number(check) > 12){
+                    check = Number(check) - 12;
+                }
+                var final = `${check}:${document.getElementById('start-time').value.split(':')[1]} ${am_pm}`;
+                document.getElementById('start').value = final;
+            }
+
+            function fill_end(){
+                var [h, m] = document.getElementById('end-time').value.split(":");
+                var am_pm = ((h % 12 ? h % 12 : 12) + ":" + m, h >= 12 ? 'PM' : 'AM');
+                var check = document.getElementById('end-time').value.split(':')[0];
+                if(Number(check) > 12){
+                    check = Number(check) - 12;
+                }
+                var final = `${check}:${document.getElementById('end-time').value.split(':')[1]} ${am_pm}`;
+                document.getElementById('end').value = final;
+            }
+
+            function total_time(){
+                var hours = Number(document.getElementById('end-time').value.split(':')[0]) - Number(document.getElementById('start-time').value.split(':')[0]);
+                var mins = Math.abs(Number(document.getElementById('end-time').value.split(':')[1]) - Number(document.getElementById('start-time').value.split(':')[1]));
+                var total = hours + (mins / 60);
+                document.getElementById('total_hours').value = total;
+            }
+            
+        </script>
+    </body>
+</html>
