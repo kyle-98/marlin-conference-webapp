@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/styles/main_style.css">
+        <link rel="stylesheet" href="/styles/homepage_style.css">
+    </head>
+
+    <body>
+
+        <div id="top-content">
+            <h1>Marlins Business Conference</h1>
+            <img src="/pictures/marlin_logo.png" id="marlin-logo">
+        </div>
+
+        <div id="middle-content">
+            <div id="user-signin-form">
+                <form action="/auth" method="post" id="login-form">
+                    <input type="text" name= "username" id="user-input" placeholder="Username"><label for="user-input">Username</label>
+                    <br><br>
+                    <input type="password" name="password" id="pass-input" placeholder="Password"><label for="pass-input">Password</label>
+                    <br><br>
+                    <input type="submit" id="login-submit" value="Login"/>
+                </form>
+            </div>
+
+            <br>
+
+            <div id="admin-link-form">
+                <form method="post" action="/admin">
+                    <input type="submit" id="admin-page" value="Admin Login"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
