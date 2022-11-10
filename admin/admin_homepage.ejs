@@ -1,0 +1,49 @@
+<!DOCTYPE >
+<html>
+    <head>
+        <link rel="stylesheet" href="/styles/main_style.css">
+    </head>
+
+    <body>
+
+
+
+        <form action="/admin_tools" method="post" id="redir-to-add">
+            <input type="submit" id="redit-send-submit" value="User Actions"/>
+        </form>
+
+        <form action="/logout" method="post">
+            <input type="submit" id="logout-btn" value="Logout"/>
+        </form>
+        
+        <h1>Welcome administrator, <%= session_username%>!</h1>
+        <p>The master timesheet is below:</p>
+
+
+        <table  border=1 style="border: 1px solid; width: 45%;">
+            <tr>
+                <th>Username</th>
+                <th>Total Time</th>
+            </tr>
+            <% var data_arr = JSON.parse( data_arr ); %>
+            <% for (var i = 0; i < data_arr.length; i++) { %>
+                <tr>
+                    <td><%= Object.values(data_arr[i])[0] %></td>
+                    <td id="time"><%= Object.values(data_arr[i])[7] %></td>
+                </tr>
+            <% } %>
+        </table>
+        
+        <script>
+            var times = document.querySelectorAll('#time');
+            for(var i = 0; i < times.length; i++){
+                if(Number(times[i].innerHTML) < 40){
+                    times[i].style.color = "red";
+                } else {
+                    times[i].style.color = "green";
+                }               
+            }
+        </script>
+
+    </body>
+</html>
