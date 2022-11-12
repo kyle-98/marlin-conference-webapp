@@ -7,7 +7,7 @@ const connect = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '******',
-    database: '******',
+    database: '*******',
     multipleStatements: true
 });
 
@@ -168,7 +168,9 @@ app.post('/user_create', (req, res) =>{
 });
 
 app.post('/add', (req, res) => {
-    connect.query('INSERT INTO monkas.marlin_data (username, date, task_name, notes, start_time, end_time, total_time) VALUES (?, ?, ?, ?, ?, ?, ?)', [req.session.username, req.body.date, req.body.taskname, req.body.notes, req.body.startTime, req.body.endTime, req.body.totalHours], (error, results, fields) => {
+    var taskname = req.body.taskname.replace(/(\r\n|\n|\r)/gm, ' ');
+    var notes = req.body.notes.replace(/(\r\n|\n|\r)/gm, ' ');
+    connect.query('INSERT INTO monkas.marlin_data (username, date, task_name, notes, start_time, end_time, total_time) VALUES (?, ?, ?, ?, ?, ?, ?)', [req.session.username, req.body.date, taskname, notes, req.body.startTime, req.body.endTime, req.body.totalHours], (error, results, fields) => {
         if(error) console.error(error);
         console.log('Data Inserted');
         res.redirect('/home');
@@ -202,7 +204,7 @@ app.post('/edit_entry', (req, res) => {
         res.redirect('/admin');
     } else {
         console.log(req.body);
-        connect.query('UPDATE monkas.marlin_data SET username = ?, date = ?, task_name = ?, notes = ?, start_time = ?, end_time = ?, total_time = ? WHERE username = ? AND date = ? AND task_name = ? AND notes = ? AND start_time = ? AND end_time = ? AND total_time = ?', [req.body.edit_0, req.body.edit_1, req.body.edit_2, req.body.edit_3, req.body.edit_time_4, req.body.edit_time_5, req.body.total_time, req.body.old_0, req.body.old_1, req.body.old_2, req.body.old_3, req.body.old_4, req.body.old_5, req.body.old_6], (error, results, fields) => {
+        connect.query('UPDATE monkas.marlin_data SET username = ?, date = ?, task_name = ?, notes = ?, start_time = ?, end_time = ?, total_time = ? WHERE username = ? AND date = ? AND start_time = ? AND end_time = ? AND total_time = ?', [req.body.edit_0, req.body.edit_1, req.body.edit_2.replace(/(\r\n|\n|\r)/gm, ' '), req.body.edit_3.replace(/(\r\n|\n|\r)/gm, ' '), req.body.edit_time_4, req.body.edit_time_5, req.body.total_time, req.body.old_0, req.body.old_1, req.body.old_4, req.body.old_5, req.body.old_6], (error, results, fields) => {
             if(error) console.error(error);
             res.redirect('/admin');
         });
