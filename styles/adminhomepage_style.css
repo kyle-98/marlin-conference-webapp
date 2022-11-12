@@ -43,9 +43,11 @@
 
 
 tbody tr:nth-child(odd){
-    background-color: rgb(182, 199, 212);
+    background-color: #5e6c7a;
 }
-
+tbody tr:nth-child(even){
+    background-color: #3e464e;
+}
 td{
     padding: 5px;
     text-align: center;
@@ -63,23 +65,8 @@ table {
     border-color: transparent;
     box-shadow: 4px 5px 12px 4px rgb(0 0 0 / 20%);
     margin: 50px;
+    margin-bottom: 15px;
 }
-
-/*
-th:first-of-type {
-    border-top-left-radius: 7px;
-  }
-th:last-of-type {
-    border-top-right-radius: 7px;  
-}
-tr:last-of-type td:first-of-type {
-    border-bottom-left-radius: 7px;
-}
-tr:last-of-type td:last-of-type {
-    border-bottom-right-radius: 7px;
-}
-*/
-
 
 #send-name {
     display: none;
@@ -112,13 +99,13 @@ h2 {
 #submit-btn{
     text-decoration: none;
     border: none;
-    background-color: rgb(94, 211, 94);
+    background-color: #3EA25E;
     padding: 10px;
     border-radius: 8px;
     color: white;
 }
 #submit-btn:hover{
-    background-color: rgb(42, 134, 47);
+    background-color: #1f6636;
     cursor: pointer;
 }
 
@@ -151,3 +138,136 @@ input[value="Edit"]{
 #edit-popup{
     display:none;
 }
+
+input[value="Select Entry"]{
+    text-decoration: none;
+    border: none;
+    background-color: #3EA25E;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+input[value="Select Entry"]:hover{
+    background-color: #1f6636;
+    cursor: pointer;
+}
+
+input[value="Edit"]{
+    text-decoration: none;
+    border: none;
+    background-color: #F4A620;
+    padding: 10px;
+    border-radius: 8px;
+    color: white; 
+}
+input[value="Edit"]:hover{
+    background-color: #af7819;
+    cursor: pointer;
+}
+
+input[value="Delete"]{
+    text-decoration: none;
+    border: none;
+    background-color: #E94649;
+    padding: 10px;
+    border-radius: 8px;
+    color: white; 
+}
+input[value="Delete"]:hover{
+    background-color: #972022;
+    cursor: pointer;
+}
+
+.tingle-modal-box__content{
+    background-color: #36393F; 
+}
+.tingle-modal-box__footer{
+    background-color: #292B2F !important;
+}
+
+#total-time-div{
+    display:flex;
+    flex-direction: row;
+}
+
+p[id="total-all-times"],
+p[id="total-all-times-number"]{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+p[id="total-all-times"]{
+    margin-right: 10px;
+}
+
+form[id="edit-form"]{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+input[type="text"],
+textarea,
+input[type="time"]{
+    background: #40444B;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    margin-left: 1.5%;
+    padding: 5px;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+input[type="time"]:focus{
+    outline: 0;
+}
+
+div[id="user-form-div"],
+div[id="date-form-div"],
+div[id="taskname-form-div"],
+div[id="notes-form-div"],
+div[id="starttime-form-div"],
+div[id="endtime-form-div"],
+div[id="totaltime-form-div"]{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-popup-close {
+    text-decoration: none;
+    border: none;
+    background-color: #E94649;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    margin-right: 3%;
+}
+
+.edit-popup-close:hover{
+    background-color: #972022;
+    cursor: pointer;
+}
+
+.edit-popup-submit{
+    text-decoration: none;
+    border: none;
+    background-color: #F4A620;
+    padding: 10px;
+    border-radius: 8px;
+    color: white; 
+    padding-right: 15px;
+    padding-left: 15px;
+    position: absolute;
+    right: 4%;
+}   
+
+.edit-popup-submit:hover{
+    background-color: #af7819;
+    cursor: pointer;
+}
+
+
+

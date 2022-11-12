@@ -1,6 +1,10 @@
 tbody tr:nth-child(odd){
-    background-color: rgb(182, 199, 212);
+    background-color: #5e6c7a;
 }
+tbody tr:nth-child(even){
+    background-color: #3e464e;
+}
+
 
 td{
     padding: 5px
@@ -17,19 +21,6 @@ table {
     border: 1px;
     border-color: transparent;
     box-shadow: 4px 5px 12px 4px rgb(0 0 0 / 20%);
-}
-
-th:first-of-type {
-    border-top-left-radius: 7px;
-  }
-th:last-of-type {
-    border-top-right-radius: 7px;  
-}
-tr:last-of-type td:first-of-type {
-    border-bottom-left-radius: 7px;
-}
-tr:last-of-type td:last-of-type {
-    border-bottom-right-radius: 7px;
 }
 
 #top-content{

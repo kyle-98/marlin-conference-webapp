@@ -47,3 +47,40 @@ label{
 form{
     display: table;
 }
+
+input[type="text"]{
+    background-color: #40444B;
+    color:white;
+    border-radius: 5px;
+    margin-left: 1%;
+    border: none;
+    padding: 10px;
+}
+
+input[type="text"]:focus{
+    outline: 0;
+}
+
+textarea {
+    background-color: #40444B;
+    color:white;
+    border-radius: 5px;
+    margin-left: 1%;
+    border: none;
+}
+
+textarea:focus{
+    outline: 0;
+}
+
+input[type="time"]{
+    background-color: #40444B;
+    color:white;
+    border-radius: 5px;
+    margin-left: 1%;
+    border: none;
+}
+
+input[type="time"]:focus{
+    outline:0;
+}

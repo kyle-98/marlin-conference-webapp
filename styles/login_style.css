@@ -40,14 +40,10 @@
     cursor: pointer;
 }
 
-label [for="user-input"]{
-    font-size: 22px;
-    margin-left: 1%;
-}
-
-label [for="pass-input"]{
-    font-size: 22px;
-    margin-left: 1%;
+label[for="user-input"],
+label[for="pass-input"]{
+    font-size: 17px;
+    color: #C2C3C5;
 }
 
 #user-input, #pass-input{
@@ -59,4 +55,21 @@ label [for="pass-input"]{
     width: 42%;
     margin-left: 32%;
 }
+
+input[name="username"],
+input[name="password"]{
+    background: #40444B;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    margin-right: 1.5%;
+}
+
+input[name="username"]:focus,
+input[name="password"]:focus{
+    outline: 0;
+}
+
+
+
 
