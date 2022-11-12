@@ -6,8 +6,9 @@ const path = require('path');
 const connect = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '*****',
-    database: '******'
+    password: '******',
+    database: '******',
+    multipleStatements: true
 });
 
 
@@ -64,10 +65,10 @@ app.get('/admin', (req, res) => {
     if(!req.session.adminloggedin){
         res.render(path.join(__dirname + '/admin/admin_login.ejs'));
     } else {
-        connect.query('SELECT *, SUM(total_time) FROM monkas.marlin_data GROUP BY username', (error, results, fields) => {
+        connect.query('SELECT *, SUM(total_time) FROM monkas.marlin_data GROUP BY username; SELECT * FROM monkas.marlin_data', (error, results, fields) => {
             if (error) console.error(error);
-            var all_data = results;
-            res.render(path.join(__dirname + '/admin/admin_homepage.ejs'), {session_username:un, data_arr: JSON.stringify(all_data)});
+
+            res.render(path.join(__dirname + '/admin/admin_homepage.ejs'), {session_username:un, data_arr: JSON.stringify(results[0]), user_data: JSON.stringify(results[1])});
         });
     }
 });
@@ -78,6 +79,10 @@ app.get('/admin_tools', (req, res) => {
     } else {
         res.render(path.join(__dirname + '/admin_tools/users_admin.ejs'));
     }
+});
+
+app.get('/get_info', (req, res) => {
+    
 });
 
 //User Auth
@@ -168,6 +173,40 @@ app.post('/add', (req, res) => {
         console.log('Data Inserted');
         res.redirect('/home');
     }); 
+});
+
+app.post('/get_info', (req, res) => {
+    if(!req.session.adminloggedin){
+        res.redirect('/admin');
+    } else {
+        connect.query('SELECT * FROM monkas.marlin_data', (error, results, fields) => {
+            res.json(results);
+            console.log(results);
+        });
+    }
+});
+
+app.post('/del_entry', (req, res) => {
+    if(!req.session.adminloggedin){
+        res.redirect('/admin');
+    } else {
+        connect.query('DELETE FROM monkas.marlin_data WHERE username = ? AND date = ? AND task_name = ? AND notes = ? AND start_time = ? AND end_time = ? AND total_time = ?', [req.body.del_username, req.body.del_date, req.body.del_taskname, req.body.del_notes, req.body.del_starttime, req.body.del_endtime, req.body.del_totaltime], (error, results, fields) =>{
+            if(error) console.error(error);
+            res.redirect('/admin');
+        });
+    }
+});
+
+app.post('/edit_entry', (req, res) => {
+    if(!req.session.adminloggedin){
+        res.redirect('/admin');
+    } else {
+        console.log(req.body);
+        connect.query('UPDATE monkas.marlin_data SET username = ?, date = ?, task_name = ?, notes = ?, start_time = ?, end_time = ?, total_time = ? WHERE username = ? AND date = ? AND task_name = ? AND notes = ? AND start_time = ? AND end_time = ? AND total_time = ?', [req.body.edit_0, req.body.edit_1, req.body.edit_2, req.body.edit_3, req.body.edit_time_4, req.body.edit_time_5, req.body.total_time, req.body.old_0, req.body.old_1, req.body.old_2, req.body.old_3, req.body.old_4, req.body.old_5, req.body.old_6], (error, results, fields) => {
+            if(error) console.error(error);
+            res.redirect('/admin');
+        });
+    }
 });
 
 app.listen(3000, () =>{ 
