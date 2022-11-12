@@ -3,6 +3,8 @@
     <head>
         <link rel="stylesheet" href="/styles/main_style.css"/>
         <link rel="stylesheet" href="/styles/adminhomepage_style.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.16.0/tingle.min.js" integrity="sha512-2B9/byNV1KKRm5nQ2RLViPFD6U4dUjDGwuW1GU+ImJh8YinPU9Zlq1GzdTMO+G2ROrB5o1qasJBy1ttYz0wCug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.16.0/tingle.min.css" integrity="sha512-b+T2i3P45i1LZM7I00Ci5QquB9szqaxu+uuk5TUSGjZQ4w4n+qujQiIuvTv2BxE7WCGQCifNMksyKILDiHzsOg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
 
     <body>
@@ -104,8 +106,20 @@
                         </table>
 
                         <div id="entry-options">
-                            <input type="submit" value="Edit"/>
-                            <input type="submit" value="Delete"/>
+                            <input type="submit" value="Edit" onclick="edit_popup.open();fill_edit();"/>
+                            <form id="edit-form" action="/edit_entry" method="post"></form>
+
+                            <form id="del-entry" method="post" action="/del_entry">
+                                <input type="text" name="del_username" id="del_username" readonly/>
+                                <input type="text" name="del_date" id="del_date" readonly/>
+                                <input type="text" name="del_taskname" id="del_taskname" readonly/>
+                                <input type="text" name="del_notes" id="del_notes" readonly/>
+                                <input type="text" name="del_starttime" id="del_starttime" readonly/>
+                                <input type="text" name="del_endtime" id="del_endtime" readonly/>
+                                <input type="text" name="del_totaltime" id="del_totaltime" readonly/>
+
+                                <input type="submit" value="Delete" onclick="fill_delete();"/>
+                            </form>
                         </div>
 
 
@@ -180,7 +194,6 @@
                                 break;
                             }
                         }
-                        console.log(selected_row_data);
 
                         var table = document.getElementById('selected-table').getElementsByTagName('tbody')[0];
                         table.innerHTML = "";
@@ -222,9 +235,21 @@
                 </script>
             </div>
         </div>
+        <!--
+        <div class="edit-popup">
+            <h1>Enter Information to Edit</h1>
+            <input type="text" id="edit-username" name="edit_username" readonly/>
+            <input type="text" id="edit-date" name="edit_date"/>
+            <input type="text" id="edit-taskname" name="edit_taskname"/>
+            <input type="text" id="edit-notes" name="edit_notes"/>
+            <input type="text" id="edit-starttime" name="edit_starttime"/>
+            <input type="text" id="edit-endtime" name="edit_endtime"/>
+            <input type="text" id="edit-totaltime" name="edit_totaltime"/>
+        </div>
+        -->
 
 
-        <input type="text" name="send_name" id="send-name"/>
+        <input type="text" name="send_name" id="send-name" readonly/>
         
         <script>
             var times = document.querySelectorAll('#time');
@@ -244,9 +269,139 @@
                 }   
             }
 
-            
-            
-            
+            function fill_delete() {
+                var selected_tags = document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td');
+                document.getElementById('del_username').value = selected_tags[0].innerHTML;
+                document.getElementById('del_date').value = selected_tags[1].innerHTML;
+                document.getElementById('del_taskname').value = selected_tags[2].innerHTML;
+                document.getElementById('del_notes').value = selected_tags[3].innerHTML;
+                document.getElementById('del_starttime').value = selected_tags[4].innerHTML;
+                document.getElementById('del_endtime').value = selected_tags[5].innerHTML;
+                document.getElementById('del_totaltime').value = Number(selected_tags[6].innerHTML);
+
+            }
+
+            var edit_popup = new tingle.modal({
+                footer: true,
+                closeMethods: ['button', 'escape'],
+                closeLabel: "Close"
+            });
+
+            edit_popup.setContent(`<div class="edit-popup"><h1>Enter Information to Edit</h1><form id="edit-form" action="/edit_entry" method="post"><input type="text" id="edit-username" name="edit_username" readonly/><input type="text" id="edit-date" name="edit_date"/><input type="text" id="edit-taskname" name="edit_taskname"/><input type="text" id="edit-notes" name="edit_notes"/><input type="time" id="edit-starttime" name="edit_starttime"/><input type="time" id="edit-endtime" name="edit_endtime" onchange="total_time();"/><input type="text" id="edit-totaltime" name="edit_totaltime" readonly/></form></div>`);
+            edit_popup.addFooterBtn('Close', 'edit-popup-close', function() {
+                edit_popup.close();
+            });
+            edit_popup.addFooterBtn('Edit', 'edit-popup-submit', function() {
+                edit_form_fill();
+                document.getElementById('edit-form').submit();
+            });
+
+            function convert_time (time){
+                var new_time = "";
+                var start_time = time.split(' ');
+                if(start_time[1] == "AM"){
+                    var am_time = start_time[0].split(":");
+                    if(am_time[0].length < 2){ am_time[0] = "0" + am_time[0]; }
+                    if(Number(am_time[0]) == 12) { am_time[0] = "00"; }
+                    new_time = am_time.join(':');
+                } else {
+                    var pm_time = start_time[0].split(":");
+                    if(Number(pm_time[0]) == 12){
+                        new_time = pm_time.join(":");
+                    } else {
+                        pm_time[0] = String(Number(pm_time[0]) + 12);
+                        new_time = pm_time.join(":");
+                    }
+                }   
+                return new_time;
+            }
+
+            function fill_edit() {
+                var edit_tags = document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td');
+                document.getElementById('edit-username').value = edit_tags[0].innerHTML;
+                document.getElementById('edit-date').value = edit_tags[1].innerHTML;
+                document.getElementById('edit-taskname').value = edit_tags[2].innerHTML;
+                document.getElementById('edit-notes').value = edit_tags[3].innerHTML;
+                document.getElementById('edit-starttime').value = convert_time(edit_tags[4].innerHTML);
+                document.getElementById('edit-endtime').value = convert_time(edit_tags[5].innerHTML);
+                document.getElementById('edit-totaltime').value = edit_tags[6].innerHTML;
+            }
+
+            function convert_start_time (){
+                var [h, m] = document.getElementById('edit-starttime').value.split(":");
+                var am_pm = ((h % 12 ? h % 12 : 12) + ":" + m, h >= 12 ? 'PM' : 'AM');
+                var check = document.getElementById('edit-starttime').value.split(':')[0];
+                if(Number(check) > 12){
+                    check = Number(check) - 12;
+                }
+                var final = `${check}:${document.getElementById('edit-starttime').value.split(':')[1]} ${am_pm}`;
+                return final;
+            }
+
+            function convert_end_time () {
+                var [h, m] = document.getElementById('edit-endtime').value.split(":");
+                var am_pm = ((h % 12 ? h % 12 : 12) + ":" + m, h >= 12 ? 'PM' : 'AM');
+                var check = document.getElementById('edit-endtime').value.split(':')[0];
+                if(Number(check) > 12){
+                    check = Number(check) - 12;
+                }
+                var final = `${check}:${document.getElementById('edit-endtime').value.split(':')[1]} ${am_pm}`;
+                return final;
+            }
+
+            function edit_form_fill() {
+                var edit_tags = document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td');
+                var edit_form = document.getElementById('edit-form');
+
+                for(var i = 0; i < document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td').length; i++){
+                    var old_input = document.createElement('input');
+                    old_input.id = "old-" + String(i);
+                    old_input.name = "old_" + String(i);
+                    old_input.value = edit_tags[i].innerHTML;
+                    edit_form.appendChild(old_input);
+                }
+
+
+                for(var i = 0; i < 4; i++){
+                    var input_tag = document.createElement('input');
+                    input_tag.id = "edit-" + String(i);
+                    input_tag.name = "edit_" + String(i);
+                    input_tag.value = edit_tags[i].innerHTML;
+                    if(i == 0) { input_tag.readOnly; }
+                    edit_form.appendChild(input_tag);
+                }
+                for(var i = 4; i < 6; i++){
+                    var time_input_tag = document.createElement('input');
+                    time_input_tag.id = "edit-time-" + String(i);
+                    time_input_tag.name = "edit_time_" + String(i);
+                    if(i == 5){ 
+                        time_input_tag.onchange = "total_time();"; 
+                        time_input_tag.value = convert_end_time(edit_tags[i].innerHTML);
+                    } else {
+                        time_input_tag.value = convert_start_time(edit_tags[i].innerHTML);
+                    }
+                    edit_form.appendChild(time_input_tag);
+                }
+
+                var total_time_tag = document.createElement('input');
+                total_time_tag.id = "total-time";
+                total_time_tag.name = "total_time";
+                total_time_tag.readOnly;
+                edit_form.appendChild(total_time_tag);
+
+                total_time();
+
+            }
+
+            function total_time (){
+                var edit_tags = document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td');
+                var hours = Number( convert_time(document.getElementById('edit-endtime').value).split(':')[0] ) - Number( convert_time(document.getElementById('edit-starttime').value).split(':')[0] );
+                var mins = Math.abs(Number( convert_time(document.getElementById('edit-endtime').value ).split(':')[1])) - Number( convert_time(document.getElementById('edit-starttime').value).split(':')[1] );
+                var total = hours + (mins / 60);
+                if(document.getElementById('total-time')){ document.getElementById('total-time').value = Number(total); }
+                document.getElementById('edit-totaltime').value = Number(total);
+            }
+
 
         </script>
 
