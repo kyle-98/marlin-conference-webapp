@@ -30,7 +30,7 @@
             <div id="tables">
 
                 <div id="main-users">
-                    <h2 id="mastersheet-title">The master timesheet is below:</h2>
+                    <h2 id="mastersheet-title">Master Timesheet</h2>
                     <table border=1>
                         <tr>
                             <th>Select User</th>
@@ -38,15 +38,20 @@
                             <th>Total Time</th>
                         </tr>
                         <% var data_arr = JSON.parse( data_arr ); %>
+                        <% var total_all_times = 0; %>
                         <% for (var i = 0; i < data_arr.length; i++) { %>
                             <tr>
                                 <td id="user-select"><input type="radio" id="selection" value="<%Object.values(data_arr[i])[0] %>" name="user-selection"></td>
                                 <td id="username-td" name="<%Object.values(data_arr[i])[0] %>"><%= Object.values(data_arr[i])[0] %></td>
                                 <td id="time"><%= Object.values(data_arr[i])[7] %></td>
+                                <% total_all_times += Number(Object.values(data_arr[i])[7]); %>
                             </tr>
                         <% } %>
                     </table>
-
+                    <div id="total-time-div">
+                        <p id="total-all-times">Total Time: </p>
+                        <p id="total-all-times-number"><%= total_all_times %></p>
+                    </div>
                     <button id="submit-btn" onclick="fill_name();edit_table();">Submit</button>
 
                 </div>
@@ -255,11 +260,17 @@
             var times = document.querySelectorAll('#time');
             for(var i = 0; i < times.length; i++){
                 if(Number(times[i].innerHTML) < 40){
-                    times[i].style.color = "red";
+                    times[i].style.color = "#E94649";
                 } else {
-                    times[i].style.color = "green";
+                    times[i].style.color = "#3EA25E";
                 }               
             }
+
+            var total_all_times_p = document.getElementById('total-all-times-number');
+            if(Number(total_all_times_p.innerHTML) < 40) { total_all_times_p.style.color = "#E94649"; }
+            else { total_all_times_p.style.color = "#3EA25E"; }
+
+
             function fill_name() {
                 for(var i = 0; i < document.querySelectorAll('#selection').length; i++){
                     if(document.querySelectorAll('#selection')[i].checked){
@@ -287,7 +298,7 @@
                 closeLabel: "Close"
             });
 
-            edit_popup.setContent(`<div class="edit-popup"><h1>Enter Information to Edit</h1><form id="edit-form" action="/edit_entry" method="post"><input type="text" id="edit-username" name="edit_username" readonly/><input type="text" id="edit-date" name="edit_date"/><input type="text" id="edit-taskname" name="edit_taskname"/><input type="text" id="edit-notes" name="edit_notes"/><input type="time" id="edit-starttime" name="edit_starttime"/><input type="time" id="edit-endtime" name="edit_endtime" onchange="total_time();"/><input type="text" id="edit-totaltime" name="edit_totaltime" readonly/></form></div>`);
+            edit_popup.setContent(`<div class="edit-popup"><h1>Enter Information to Edit</h1><form id="edit-form" action="/edit_entry" method="post"><div id="user-form-div"><label for="edit-username">Username: </label><input type="text" id="edit-username" name="edit_username" readonly/></div><br><div id="date-form-div"><label for="edit-date">Date: </label><input type="text" id="edit-date" name="edit_date"/></div><br><div id="taskname-form-div"><label for="edit-taskname">Task Name: </label><textarea cols="40" rows="5" id="edit-taskname" name="edit_taskname"></textarea></div><br><div id="notes-form-div"><label for="edit-notes">Notes: </label><textarea cols="40" rows="5" id="edit-notes" name="edit_notes"></textarea></div><br><div id="starttime-form-div"><label for="edit-starttime">Start Time: </label><input type="time" id="edit-starttime" name="edit_starttime" onchange="total_time();"/></div><br><div id="endtime-form-div"><label for="edit-edntime">End Time: </label><input type="time" id="edit-endtime" name="edit_endtime" onchange="total_time();"/></div><br><div id="totaltime-form-div"><label for="edit-totaltime">Total Time: </label><input type="text" id="edit-totaltime" name="edit_totaltime" readonly/></div></form></div>`);
             edit_popup.addFooterBtn('Close', 'edit-popup-close', function() {
                 edit_popup.close();
             });
@@ -351,6 +362,8 @@
 
             function edit_form_fill() {
                 var edit_tags = document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td');
+                //var edit_tags = [document.getElementById('edit-username'), document.getElementById('edit-date'), document.getElementById('edit-taskname'), document.getElementById('edit-notes'), document.getElementById('edit-starttime'), document.getElementById('edit-endtime'), document.getElementById('edit-totaltime')];
+
                 var edit_form = document.getElementById('edit-form');
 
                 for(var i = 0; i < document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td').length; i++){
@@ -361,12 +374,12 @@
                     edit_form.appendChild(old_input);
                 }
 
-
+                edit_tags = [document.getElementById('edit-username'), document.getElementById('edit-date'), document.getElementById('edit-taskname'), document.getElementById('edit-notes'), document.getElementById('edit-starttime'), document.getElementById('edit-endtime'), document.getElementById('edit-totaltime')];
                 for(var i = 0; i < 4; i++){
                     var input_tag = document.createElement('input');
                     input_tag.id = "edit-" + String(i);
                     input_tag.name = "edit_" + String(i);
-                    input_tag.value = edit_tags[i].innerHTML;
+                    input_tag.value = edit_tags[i].value;
                     if(i == 0) { input_tag.readOnly; }
                     edit_form.appendChild(input_tag);
                 }
@@ -374,11 +387,11 @@
                     var time_input_tag = document.createElement('input');
                     time_input_tag.id = "edit-time-" + String(i);
                     time_input_tag.name = "edit_time_" + String(i);
+                    time_input_tag.onchange = "total_time();";
                     if(i == 5){ 
-                        time_input_tag.onchange = "total_time();"; 
-                        time_input_tag.value = convert_end_time(edit_tags[i].innerHTML);
+                        time_input_tag.value = convert_end_time();
                     } else {
-                        time_input_tag.value = convert_start_time(edit_tags[i].innerHTML);
+                        time_input_tag.value = convert_start_time();
                     }
                     edit_form.appendChild(time_input_tag);
                 }
@@ -395,7 +408,7 @@
 
             function total_time (){
                 var edit_tags = document.getElementById('selected-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td');
-                var hours = Number( convert_time(document.getElementById('edit-endtime').value).split(':')[0] ) - Number( convert_time(document.getElementById('edit-starttime').value).split(':')[0] );
+                var hours = Number( convert_time(convert_end_time()).split(':')[0] ) - Number( convert_time(convert_start_time()).split(':')[0] );
                 var mins = Math.abs(Number( convert_time(document.getElementById('edit-endtime').value ).split(':')[1])) - Number( convert_time(document.getElementById('edit-starttime').value).split(':')[1] );
                 var total = hours + (mins / 60);
                 if(document.getElementById('total-time')){ document.getElementById('total-time').value = Number(total); }
