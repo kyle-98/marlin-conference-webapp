@@ -2,31 +2,32 @@
 <html>
     <head>
         <link rel="stylesheet" href="/styles/main_style.css">
-
-        <style>
-            #start, #end, #total_hours {
-                display: none;
-            }
-        </style>
+        <link rel="stylesheet" href="/styles/addhours_style.css"/>
     </head>
 
     <body>
-        <h3>Enter the data you would like to add to your timesheet: </h3>
+        <div id="top-content">
+            <h3>Enter the data you would like to add to your timesheet: </h3>
+        </div>
 
-        <form method="post" action="/add">
-            <label for="date">Date: </label><input type="text" placeholder="mm/dd/yyyy" id="date" name="date"/>
-            <br>
-            <label for="taskname">Task Name: </label><input type="text" placeholder="Name of task" id="taskname" name="taskname"/>
-            <br>
-            <label for="notes">Notes: </label><input type="text" placeholder="Notes" id="notes" name="notes"/>
-            <br>
-            <label for="start-time">Start Time: </label><input type="time" id="start-time" onchange="fill_start()"/> <input type="text" id="start" name="startTime"/>
-            <br>
-            <label for="end-time">End Time: </label><input type="time" id="end-time" onchange="fill_end();total_time();"/><input type="text" id="end" name="endTime"/>
-            <input type="text" id="total_hours" name="totalHours"/>
-            <input type="submit" value="Submit Time"/>
-            
-        </form>
+        <div id="middle-content">
+            <form method="post" action="/add">
+                <p><label for="date">Date: </label><input type="text" placeholder="mm/dd/yyyy" id="date" name="date"/></p>
+                <br>
+                <p><label for="taskname">Task Name: </label><input type="text" placeholder="Name of task" id="taskname" name="taskname"/></p>
+                <br>
+                <p><label for="notes">Notes: </label><input type="text" placeholder="Notes" id="notes" name="notes"/></p>
+                <br>
+                <p><label for="start-time">Start Time: </label><input type="time" id="start-time" onchange="fill_start()"/> <input type="text" id="start" name="startTime"/></p>
+                <br>
+                <p><label for="end-time">End Time: </label><input type="time" id="end-time" onchange="fill_end();total_time();"/><input type="text" id="end" name="endTime"/></p>
+                <br>
+                <input type="text" id="total_hours" name="totalHours" readonly/>
+                <br>
+                <input type="submit" value="Submit Time"/>
+            </form>
+        </div>
+        
 
         <script>
             function fill_start() {
