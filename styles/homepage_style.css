@@ -1,3 +1,37 @@
+tbody tr:nth-child(odd){
+    background-color: rgb(182, 199, 212);
+}
+
+td{
+    padding: 5px
+}
+
+th{
+    padding: 5px;
+    background-color: rgb(0, 145, 184);
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px;
+    border-color: transparent;
+    box-shadow: 4px 5px 12px 4px rgb(0 0 0 / 20%);
+}
+
+th:first-of-type {
+    border-top-left-radius: 7px;
+  }
+th:last-of-type {
+    border-top-right-radius: 7px;  
+}
+tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 7px;
+}
+tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 7px;
+}
+
 #top-content{
     display: flex;
     flex-direction: column;
@@ -7,12 +41,31 @@
 #middle-content{
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    align-content: space-around;
     align-items: center;
 }
 
-#login-submit {
+#logout-form {
+    position: absolute;
+    right: 1%;
+    top: 3%;
+}
+
+#logout-btn{
+    margin-left:10%;
+    text-decoration: none;
+    border: none;
+    background-color: rgb(233, 114, 114);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+
+#logout-btn:hover{
+    background-color: rgb(177, 20, 20);
+    cursor: pointer;
+}
+
+#redit-send-submit{
     margin-left:10%;
     text-decoration: none;
     border: none;
@@ -21,42 +74,24 @@
     border-radius: 8px;
     color: white;
 }
-#login-submit:hover {
+
+#redit-send-submit:hover{
     background-color: rgb(0,60,105);
     cursor: pointer;
 }
 
-#admin-page {
-    margin-left:12%;
-    text-decoration: none;
-    border: none;
-    background-color: rgb(0,145,184);
-    padding: 10px;
-    border-radius: 8px;
-    color: white;
-}
-#admin-page:hover{
-    background-color: rgb(0,60,105);
-    cursor: pointer;
+#bottom-content{
+    display: flex;
+    justify-content: center;
 }
 
-label [for="user-input"]{
+
+p{
     font-size: 22px;
-    margin-left: 1%;
+    font-weight: bold;
 }
 
-label [for="pass-input"]{
-    font-size: 22px;
-    margin-left: 1%;
-}
-
-#user-input, #pass-input{
-    padding: 9px 7px;
-    font-size: 13px;
-}
-
-#user-signin-form{
-    width: 42%;
-    margin-left: 32%;
+#total-hours-p{
+    padding-left: 10px;
 }
 

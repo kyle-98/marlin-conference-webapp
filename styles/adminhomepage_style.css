@@ -1,0 +1,153 @@
+#logout-btn{
+    position: absolute;
+    right: 1%;
+    top: 3%;
+    text-decoration: none;
+    border: none;
+    background-color: rgb(233, 114, 114);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+
+#logout-btn:hover{
+    background-color: rgb(177, 20, 20);
+    cursor: pointer;
+}
+
+#top-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#middle-content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1%;
+}
+
+#redit-send-submit{
+    text-decoration: none;
+    border: none;
+    background-color: rgb(0,145,184);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+#redit-send-submit:hover{
+    background-color: rgb(0,60,105);
+    cursor: pointer;
+}
+
+
+
+tbody tr:nth-child(odd){
+    background-color: rgb(182, 199, 212);
+}
+
+td{
+    padding: 5px;
+    text-align: center;
+}
+
+th{
+    padding: 5px;
+    background-color: rgb(0, 145, 184);
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px;
+    border-color: transparent;
+    box-shadow: 4px 5px 12px 4px rgb(0 0 0 / 20%);
+    margin: 50px;
+}
+
+/*
+th:first-of-type {
+    border-top-left-radius: 7px;
+  }
+th:last-of-type {
+    border-top-right-radius: 7px;  
+}
+tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 7px;
+}
+tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 7px;
+}
+*/
+
+
+#send-name {
+    display: none;
+}
+
+#tables{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+#main-users{
+    display:flex;
+    flex-direction: column;
+    width:37%;
+    align-items: center;
+}
+
+h2 {
+    position: absolute;
+}
+
+#user-table{
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    align-items: center;
+}
+
+#submit-btn{
+    text-decoration: none;
+    border: none;
+    background-color: rgb(94, 211, 94);
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+#submit-btn:hover{
+    background-color: rgb(42, 134, 47);
+    cursor: pointer;
+}
+
+#selected-entry{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[name="del_username"], 
+input[name="del_date"],
+input[name="del_taskname"],
+input[name="del_notes"],
+input[name="del_starttime"],
+input[name="del_endtime"],
+input[name="del_totaltime"]{
+    display:none;
+}
+
+#entry-options {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+input[value="Edit"]{
+    margin-right: 22px;
+}
+
+#edit-popup{
+    display:none;
+}
