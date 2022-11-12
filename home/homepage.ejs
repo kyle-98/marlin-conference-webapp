@@ -1,50 +1,68 @@
 <!DOCTYPE >
 <html>
     <head>
-
+        <link rel="stylesheet" href="/styles/main_style.css"/>
+        <link rel="stylesheet" href="/styles/homepage_style.css"/>
     </head>
 
     <body>
+        <div id="logout-form">
+            <form action="/logout" method="post">
+                <input type="submit" id="logout-btn" value="Logout"/>
+            </form>
+        </div>
 
-        <form action="/add_data" method="post" id="redir-to-add">
-            <input type="submit" id="redit-send-submit" value="Add Hours"/>
-        </form>
+        <div id="top-content">
+            <h1>Welcome, <%= session_username%>!</h1>
+            <p>Your timesheet is below:</p>
+        </div>
 
-        <form action="/logout" method="post">
-            <input type="submit" id="logout-btn" value="Logout"/>
-        </form>
-        
-        <h1>Welcome, <%= session_username%>!</h1>
-        <p>Your timesheet is below:</p>
+        <div id="middle-content">
 
-
-        <table  border=1 style="border: 1px solid; width: 90%;">
-            <tr>
-                <th>Username</th>
-                <th>Date</th>
-                <th>Task Name</th>
-                <th>Notes</th>
-                <th>Starting Time</th>
-                <th>Ending Time</th>
-                <th>Total Time</th>
-            </tr>
-            <% var data_arr = JSON.parse( user_data_arr ); %>
-            <% var total_hours = 0; %>
-            <% for (var i = 0; i < data_arr.length; i++) { %>
-                <tr>
-                    <% for (var j = 0; j < Object.values(data_arr[i]).length; j++){ %>
-                        <td><%= Object.values(data_arr[i])[j]; %></td>
-                        <%if(j == 6){ %>
-                            <% total_hours += Object.values(data_arr[i])[j]; %>
-                        <% } %>
+            <div id="add-hours-form">
+                <form action="/add_data" method="post" id="redir-to-add">
+                    <input type="submit" id="redit-send-submit" value="Add Hours"/>
+                </form>
+            </div>
+                
+            <div id="main-table">
+                <table border=1>
+                    <tr>
+                        <th>Username</th>
+                        <th>Date</th>
+                        <th>Task Name</th>
+                        <th>Notes</th>
+                        <th>Starting Time</th>
+                        <th>Ending Time</th>
+                        <th>Total Time</th>
+                    </tr>
+                    <% var data_arr = JSON.parse( user_data_arr ); %>
+                    <% var total_hours = 0; %>
+                    <% for (var i = 0; i < data_arr.length; i++) { %>
+                        <tr>
+                            <% for (var j = 0; j < Object.values(data_arr[i]).length; j++){ %>
+                                <td><%= Object.values(data_arr[i])[j]; %></td>
+                                <%if(j == 6){ %>
+                                    <% total_hours += Object.values(data_arr[i])[j]; %>
+                                <% } %>
+                            <% } %>
+                        </tr>
                     <% } %>
-                </tr>
-            <% } %>
-        </table>
+                </table>
+            </div>
+        </div>
+
+        <div id="bottom-content">
+            <p>Total Hours: </p>
+            <p id="total-hours-p"><%= total_hours %></p>
+        </div>
         
         <script>
-            //var test;
-            //console.log(test[0]);
+            if(Number(document.getElementById('total-hours-p').innerHTML) < 40){
+                document.getElementById('total-hours-p').style.color = 'red';
+            } else {
+                document.getElementById('total-hours-p').style.color = 'green';
+            }
         </script>
 
     </body>
