@@ -1,38 +1,230 @@
 <!DOCTYPE >
 <html>
     <head>
-        <link rel="stylesheet" href="/styles/main_style.css">
+        <link rel="stylesheet" href="/styles/main_style.css"/>
+        <link rel="stylesheet" href="/styles/adminhomepage_style.css"/>
     </head>
 
     <body>
 
-
-
-        <form action="/admin_tools" method="post" id="redir-to-add">
-            <input type="submit" id="redit-send-submit" value="User Actions"/>
-        </form>
-
-        <form action="/logout" method="post">
-            <input type="submit" id="logout-btn" value="Logout"/>
-        </form>
         
-        <h1>Welcome administrator, <%= session_username%>!</h1>
-        <p>The master timesheet is below:</p>
+        <div id="logout-btn">
+            <form action="/logout" method="post">
+                <input type="submit" id="logout-btn" value="Logout"/>
+            </form>
+        </div>
+        
+        <div id="top-content">
+            <h1>Welcome administrator, <%= session_username%>!</h1>
+        </div>
+        
+
+        <div id="middle-content">
+
+            <form action="/admin_tools" method="post" id="redir-to-add">
+                <input type="submit" id="redit-send-submit" value="User Actions"/>
+            </form>
+
+            <div id="tables">
+
+                <div id="main-users">
+                    <h2 id="mastersheet-title">The master timesheet is below:</h2>
+                    <table border=1>
+                        <tr>
+                            <th>Select User</th>
+                            <th>Username</th>
+                            <th>Total Time</th>
+                        </tr>
+                        <% var data_arr = JSON.parse( data_arr ); %>
+                        <% for (var i = 0; i < data_arr.length; i++) { %>
+                            <tr>
+                                <td id="user-select"><input type="radio" id="selection" value="<%Object.values(data_arr[i])[0] %>" name="user-selection"></td>
+                                <td id="username-td" name="<%Object.values(data_arr[i])[0] %>"><%= Object.values(data_arr[i])[0] %></td>
+                                <td id="time"><%= Object.values(data_arr[i])[7] %></td>
+                            </tr>
+                        <% } %>
+                    </table>
+
+                    <button id="submit-btn" onclick="fill_name();edit_table();">Submit</button>
+
+                </div>
+                
+                <% var user_arr = JSON.parse(user_data); %>
+                <!--<% Object.values(user_arr[0]); %>-->
+                <% var arr_length = user_arr.length; %>
+    
+                <script>
+                    var client_data = [];
+                    <% for(var x = 0; x < arr_length; x++){ %>
+                        client_data.push(String( `<%= Object.values(user_arr[x])%> `).split(','));
+                    <% } %>
+    
+                </script>
+    
+                <div id="user-table">
+                    <h2>Timesheet of Selected User</h2>
+                    <table border="1" id="selected-user">
+                        <thead>
+                            <tr>
+                                <th>Select Entry</th>
+                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Task Name</th>
+                                <th>Notes</th>
+                                <th>Starting Time</th>
+                                <th>Ending Time</th>
+                                <th>Total Time</th>
+                            </tr>
+                            <tbody>
+        
+                            </tbody>
+                        </thead>
+        
+                    </table>
+
+                    <div id="select-entry">
+                        <input type="submit" value="Select Entry" onclick="select_entry();"/>
+                    </div>
+
+                    <div id="selected-entry">
+                        <h2>Selected Entry</h2>
+                        <table id="selected-table">
+                            <thead>
+                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Task Name</th>
+                                <th>Notes</th>
+                                <th>Starting Time</th>
+                                <th>Ending Time</th>
+                                <th>Total Time</th>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                        <div id="entry-options">
+                            <input type="submit" value="Edit"/>
+                            <input type="submit" value="Delete"/>
+                        </div>
 
 
-        <table  border=1 style="border: 1px solid; width: 45%;">
-            <tr>
-                <th>Username</th>
-                <th>Total Time</th>
-            </tr>
-            <% var data_arr = JSON.parse( data_arr ); %>
-            <% for (var i = 0; i < data_arr.length; i++) { %>
-                <tr>
-                    <td><%= Object.values(data_arr[i])[0] %></td>
-                    <td id="time"><%= Object.values(data_arr[i])[7] %></td>
-                </tr>
-            <% } %>
-        </table>
+                    </div>
+
+                </div>
+    
+                <script>
+                    function edit_table(){
+                        var table = document.getElementById('selected-user').getElementsByTagName('tbody')[0];
+                        table.innerHTML = '';
+
+                        var table2 = document.getElementById('selected-table').getElementsByTagName('tbody')[0];
+                        table2.innerHTML = '';
+                    
+                        for(var i in client_data){ 
+                            var tr = document.createElement('tr');
+                            var td = document.createElement('td');
+                            var radio = document.createElement('input');
+                            radio.type = 'radio';
+                            radio.id = 'selection-2';
+                            radio.name = 'selection-2';
+                            td.appendChild(radio);
+                            tr.appendChild(td);
+                            if(client_data[i].indexOf(document.getElementById('send-name').value) != -1){
+                                for(var j = 0; j < client_data[i].length; j++){
+                                    var td2 = document.createElement('td');
+                                    switch(j){
+                                        case 0:
+                                            td2.id = 'sel-username';
+                                            break;
+                                        case 1:
+                                            td2.id = 'sel-date';
+                                            break;
+                                        case 2:
+                                            td2.id = 'sel-taskname';
+                                            break;
+                                        case 3:
+                                            td2.id = 'sel-notes';
+                                            break;
+                                        case 4:
+                                            td2.id = 'sel-starttime';
+                                            break;
+                                        case 5:
+                                            td2.id = 'sel-endtime';
+                                            break;
+                                        case 6:
+                                            td2.id = 'sel-totaltime';
+                                            break;
+                                    }
+
+                                    td2.appendChild(document.createTextNode(client_data[i][j]));
+                                    tr.appendChild(td2);
+                                }
+                                table.appendChild(tr);
+                            }
+                        }
+                    }
+
+                    function select_entry() {
+                        var selectors = document.querySelectorAll('#selection-2');
+                        var selected_row_data = [];
+                        for(var i in selectors){
+                            if(selectors[i].checked){
+                                selected_row_data.push(document.querySelectorAll('#sel-username')[i].innerHTML);
+                                selected_row_data.push(document.querySelectorAll('#sel-date')[i].innerHTML);
+                                selected_row_data.push(document.querySelectorAll('#sel-taskname')[i].innerHTML);
+                                selected_row_data.push(document.querySelectorAll('#sel-notes')[i].innerHTML);
+                                selected_row_data.push(document.querySelectorAll('#sel-starttime')[i].innerHTML);
+                                selected_row_data.push(document.querySelectorAll('#sel-endtime')[i].innerHTML);
+                                selected_row_data.push(document.querySelectorAll('#sel-totaltime')[i].innerHTML);
+                                break;
+                            }
+                        }
+                        console.log(selected_row_data);
+
+                        var table = document.getElementById('selected-table').getElementsByTagName('tbody')[0];
+                        table.innerHTML = "";
+                        var tr = document.createElement('tr');
+                        for(var i = 0; i < selected_row_data.length; i++){
+                            var td = document.createElement('td');
+                            switch(i){
+                                case 0:
+                                    td.id = 'chose-username';
+                                    break;
+                                case 1:
+                                    td.id = 'chose-date';
+                                    break;
+                                case 2:
+                                    td.id = 'chose-taskname';
+                                    break;
+                                case 3:
+                                    td.id = 'chose-notes';
+                                    break;
+                                case 4:
+                                    td.id = 'chose-starttime';
+                                    break;
+                                case 5:
+                                    td.id = 'chose-endtime';
+                                    break;
+                                case 6:
+                                    td.id = 'chose-totaltime';
+                                    break;
+                            }
+
+                            td.appendChild(document.createTextNode(selected_row_data[i]));
+                            tr.appendChild(td);
+                        }
+
+                        table.appendChild(tr);
+                                
+                    }
+                    
+                </script>
+            </div>
+        </div>
+
+
+        <input type="text" name="send_name" id="send-name"/>
         
         <script>
             var times = document.querySelectorAll('#time');
@@ -43,6 +235,19 @@
                     times[i].style.color = "green";
                 }               
             }
+            function fill_name() {
+                for(var i = 0; i < document.querySelectorAll('#selection').length; i++){
+                    if(document.querySelectorAll('#selection')[i].checked){
+                        document.getElementById('send-name').value = document.querySelectorAll('#username-td')[i].innerHTML;
+                        break;
+                    }
+                }   
+            }
+
+            
+            
+            
+
         </script>
 
     </body>
