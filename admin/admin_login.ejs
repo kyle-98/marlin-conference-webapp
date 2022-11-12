@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="/styles/main_style.css"/>
+        <link rel="stylesheet" href="/styles/login_style.css"/>
+        <style>
+            label{
+                font-size: 18px;
+                padding-right: 5px;
+                display: table-cell;
+            }
 
+            p{
+                display: table-row;
+            }
+
+            form{
+                display: table;
+            }
+            #login-submit{
+                margin-left: 120%;
+            }
+
+
+        </style>
     </head>
 
     <body>
-        <form action="/admin_auth" method="post" id="login-form">
-            <input type="text" name= "username" id="user-input" placeholder="Username"><label for="user-input">Username</label>
-            <br><br>
-            <input type="password" name="password" id="pass-input" placeholder="Password"><label for="pass-input">Password</label>
-            <br><br>
-            <input type="submit" id="login-submit" value="Login"/>
-        </form>
+        <div id="top-content">
+            <h1>Administrator Login</h1>
+        </div>
+        <div id="middle-content">
+            <form action="/admin_auth" method="post" id="login-form">
+                <p><label for="user-input">Username</label><input type="text" name= "username" id="user-input" placeholder="Username"></p>
+                <br><br>
+                <p><label for="pass-input">Password</label><input type="password" name="password" id="pass-input" placeholder="Password"></p>
+                <br><br>
+                <input type="submit" id="login-submit" value="Login"/>
+            </form>
+        </div>
+        
         
         
     </body>
