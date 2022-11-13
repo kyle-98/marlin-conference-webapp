@@ -6,8 +6,8 @@ const path = require('path');
 const connect = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '******',
-    database: '*******',
+    password: '*******',
+    database: 'monkas',
     multipleStatements: true
 });
 
@@ -203,10 +203,20 @@ app.post('/edit_entry', (req, res) => {
     if(!req.session.adminloggedin){
         res.redirect('/admin');
     } else {
-        console.log(req.body);
         connect.query('UPDATE monkas.marlin_data SET username = ?, date = ?, task_name = ?, notes = ?, start_time = ?, end_time = ?, total_time = ? WHERE username = ? AND date = ? AND start_time = ? AND end_time = ? AND total_time = ?', [req.body.edit_0, req.body.edit_1, req.body.edit_2.replace(/(\r\n|\n|\r)/gm, ' '), req.body.edit_3.replace(/(\r\n|\n|\r)/gm, ' '), req.body.edit_time_4, req.body.edit_time_5, req.body.total_time, req.body.old_0, req.body.old_1, req.body.old_4, req.body.old_5, req.body.old_6], (error, results, fields) => {
             if(error) console.error(error);
             res.redirect('/admin');
+        });
+    }
+});
+
+app.post('/change_pass', (req, res) => {
+    if(!req.session.loggedin){
+        res.redirect('/');
+    } else {
+        connect.query('UPDATE monkas.marlin_login SET password = ? WHERE username = ?', [req.body.pass_2, req.body.username], (error, results, fields) => {
+            if(error) console.error(error);
+            res.redirect('/home');
         });
     }
 });
