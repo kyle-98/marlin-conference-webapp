@@ -1,26 +1,50 @@
 <!DOCTYPE >
 <html>
     <head>
+        <link rel="stylesheet" href="/styles/main_style.css"/>
+        <link rel="stylesheet" href="/styles/usersadmin_style.css"/>
 
     </head>
 
     <body>
+        <div id="top-content">
+            <h1>Create a New User</h1>
+        </div>
         
-        <h1>Welcome</h1>
-        <p>The master timesheet is below:</p>
+        <div id="middle-content">
+            <form action="/user_create" method="post">
+                <div id="form-content">
+                    <div id="new-user-div">
+                        <label for="new_username">New Username: </label><input type="text" placeholder="Username" name="new_username" id="new_username" onchange="check_inputs();"/>
+                    </div>
+                    <br>
+                    <div id="new-pass-div">
+                        <label for="new_password">New Password: </label><input type="password" placeholder="Password" name="new_password" id="new_password" onchange="check_inputs();"/>
+                    </div>
+                    <br>
+                    <div id="admin-div">
+                        <label for="is_admin">Make New User Admin: </label><input type="checkbox" value="1" id="is_admin" name="is_admin">
+                    </div>
+                    <br>
+                    <input type="submit" id="create-user" value="Create User"/>
+                </div>
+            </form>
+        </div>
 
-        <form action="/user_create" method="post">
-            <label for="new_username">New Username: </label><input type="text" placeholder="Username" name="new_username" id="new_username"/>
-            <label for="new_password">New Password: </label><input type="password" placeholder="Password" name="new_password" id="new_password"/>
-            <label for="is_admin">Make New User Admin: </label><input type="checkbox" value="1" id="is_admin" name="is_admin">
-            <input type="submit" value="Create User"/>
-        </form>
-
-
-        
-        
         <script>
+            document.querySelectorAll('input#create-user')[0].disabled = true;
+            function check_inputs() {
+                if(document.getElementById('new_username').value != '' && document.getElementById('new_password').value != ''){
+                    document.querySelectorAll('input#create-user')[0].disabled = false;
+                } else {
+                    document.querySelectorAll('input#create-user')[0].disabled = true;
+                }
+            }
         </script>
 
+        
+
+
+        
     </body>
 </html>
