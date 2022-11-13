@@ -1,0 +1,54 @@
+label {
+    font-size: 18px;
+    font-size: 17px;
+    color: #C2C3C5;
+    margin-right: 10px;
+}
+
+#middle-content {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="checkbox"]{
+    height: 18px;
+    width: 18px;
+    accent-color: #3EA25E;
+}
+
+div[id="new-user-div"],
+div[id="new-pass-div"],
+div[id="admin-div"]{
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"],
+input[type="password"]{
+    background: #40444B;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+input[type="text"]:focus,
+input[type="password"]:focus{
+    outline: 0;
+}
+
+input[type="submit"]{
+    text-decoration: none;
+    border: none;
+    background-color: #3EA25E;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+}
+input[type="submit"]:hover{
+    background-color: #1f6636;
+    cursor: pointer;
+}
+
+input[type="submit"]:disabled{
+    cursor: not-allowed;
+}
